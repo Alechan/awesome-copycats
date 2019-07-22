@@ -1,3 +1,31 @@
+Awesome WM Copycats - Modified
+==============================
+Adapted to my tastes. Usual extra-reqs if installed in Ubuntu
+
+.. code-block:: shell
+
+    $ sudo apt-get install rxvt rofi unclutter firefox scrot mpd mpc dmenu xsel slock
+
+Same installation method as in official
+
+.. code-block:: shell
+
+    $ git clone --recursive https://github.com/Alechan/awesome-copycats.git
+    $ mv -bv awesome-copycats/* ~/.config/awesome && rm -rf awesome-copycats
+
+Recommended rxvt configuration: rxvt_config_
+
+To test terminal behaviour
+
+.. code-block:: shell
+
+    $ Xephyr :2 -ac -br -noreset -screen 1152x720 &
+    $ DISPLAY=:2.0 awesome -c ~/.config/awesome/rc.lua
+
+Offcial doc is copied below
+
+------------
+
 Awesome WM Copycats
 ===================
 
@@ -193,3 +221,4 @@ Additional default software used: ::
 .. _FontAwesome: https://github.com/FortAwesome/Font-Awesome
 .. _branches: https://github.com/lcpz/awesome-copycats/branches
 .. _city.list.json.gz: http://bulk.openweathermap.org/sample/city.list.json.gz
+.. _rxvt_config: https://addy-dclxvi.github.io/post/configuring-urxvt/

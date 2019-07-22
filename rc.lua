@@ -57,7 +57,10 @@ local function run_once(cmd_arr)
     end
 end
 
+-- Original:
 run_once({ "urxvtd", "unclutter -root" }) -- entries must be separated by commas
+-- Mine:
+--run_once({ "unclutter -root" }) -- entries must be separated by commas
 
 -- This function implements the XDG autostart specification
 --[[
@@ -89,15 +92,23 @@ local themes = {
 local chosen_theme = themes[5]
 local modkey       = "Mod4"
 local altkey       = "Mod1"
-local terminal     = "urxvtc"
+-- Original:
+-- local terminal     = "urxvtc"
+-- Mine:
+local terminal     = "urxvt -e /usr/bin/tmux"
 local editor       = os.getenv("EDITOR") or "vim"
 local gui_editor   = "gvim"
 local browser      = "firefox"
 local guieditor    = "atom"
 local scrlocker    = "slock"
+-- My extras:
+local desktop_apps_launcher = "rofi -show drun"
 
 awful.util.terminal = terminal
-awful.util.tagnames = { "1", "2", "3", "4", "5" }
+-- Original:
+-- awful.util.tagnames = { "1", "2", "3", "4", "5" }
+-- Mine:
+awful.util.tagnames = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" }
 awful.layout.layouts = {
     awful.layout.suit.floating,
     awful.layout.suit.tile,
@@ -273,53 +284,74 @@ globalkeys = my_table.join(
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
               {description = "go back", group = "tag"}),
 
+    -- Orig: (alt instead of modkey)
     -- Non-empty tag browsing
-    awful.key({ altkey }, "Left", function () lain.util.tag_view_nonempty(-1) end,
-              {description = "view  previous nonempty", group = "tag"}),
-    awful.key({ altkey }, "Right", function () lain.util.tag_view_nonempty(1) end,
-              {description = "view  previous nonempty", group = "tag"}),
+--     awful.key({ altkey }, "Left", function () lain.util.tag_view_nonempty(-1) end,
+--               {description = "view  previous nonempty", group = "tag"}),
+--     awful.key({ altkey }, "Right", function () lain.util.tag_view_nonempty(1) end,
+--               {description = "view  previous nonempty", group = "tag"}),
+-- 
+--     -- Default client focus
+--     awful.key({ altkey,           }, "j",
+--         function ()
+--             awful.client.focus.byidx( 1)
+--         end,
+--         {description = "focus next by index", group = "client"}
+--     ),
+--     awful.key({ altkey,           }, "k",
+--         function ()
+--             awful.client.focus.byidx(-1)
+--         end,
+--         {description = "focus previous by index", group = "client"}
+--     ),
+    -- Mine: (use modkey as in default awesome)
+     awful.key({ modkey }, "Left", function () lain.util.tag_view_nonempty(-1) end,
+               {description = "view  previous nonempty", group = "tag"}),
+     awful.key({ modkey }, "Right", function () lain.util.tag_view_nonempty(1) end,
+               {description = "view  previous nonempty", group = "tag"}),
+ 
+     -- Default client focus
+     awful.key({ modkey,           }, "j",
+         function ()
+             awful.client.focus.byidx( 1)
+         end,
+         {description = "focus next by index", group = "client"}
+     ),
+     awful.key({ modkey,           }, "k",
+         function ()
+             awful.client.focus.byidx(-1)
+         end,
+         {description = "focus previous by index", group = "client"}
+     ),
 
-    -- Default client focus
-    awful.key({ altkey,           }, "j",
-        function ()
-            awful.client.focus.byidx( 1)
-        end,
-        {description = "focus next by index", group = "client"}
-    ),
-    awful.key({ altkey,           }, "k",
-        function ()
-            awful.client.focus.byidx(-1)
-        end,
-        {description = "focus previous by index", group = "client"}
-    ),
-
+   -- Orig: (commented because I use default awesome focus by index)
     -- By direction client focus
-    awful.key({ modkey }, "j",
-        function()
-            awful.client.focus.global_bydirection("down")
-            if client.focus then client.focus:raise() end
-        end,
-        {description = "focus down", group = "client"}),
-    awful.key({ modkey }, "k",
-        function()
-            awful.client.focus.global_bydirection("up")
-            if client.focus then client.focus:raise() end
-        end,
-        {description = "focus up", group = "client"}),
-    awful.key({ modkey }, "h",
-        function()
-            awful.client.focus.global_bydirection("left")
-            if client.focus then client.focus:raise() end
-        end,
-        {description = "focus left", group = "client"}),
-    awful.key({ modkey }, "l",
-        function()
-            awful.client.focus.global_bydirection("right")
-            if client.focus then client.focus:raise() end
-        end,
-        {description = "focus right", group = "client"}),
-    awful.key({ modkey,           }, "w", function () awful.util.mymainmenu:show() end,
-              {description = "show main menu", group = "awesome"}),
+--    awful.key({ modkey }, "j",
+--        function()
+--            awful.client.focus.global_bydirection("down")
+--            if client.focus then client.focus:raise() end
+--        end,
+--        {description = "focus down", group = "client"}),
+--    awful.key({ modkey }, "k",
+--        function()
+--            awful.client.focus.global_bydirection("up")
+--            if client.focus then client.focus:raise() end
+--        end,
+--        {description = "focus up", group = "client"}),
+--    awful.key({ modkey }, "h",
+--        function()
+--            awful.client.focus.global_bydirection("left")
+--            if client.focus then client.focus:raise() end
+--        end,
+--        {description = "focus left", group = "client"}),
+--    awful.key({ modkey }, "l",
+--        function()
+--            awful.client.focus.global_bydirection("right")
+--            if client.focus then client.focus:raise() end
+--        end,
+--        {description = "focus right", group = "client"}),
+--    awful.key({ modkey,           }, "w", function () awful.util.mymainmenu:show() end,
+--              {description = "show main menu", group = "awesome"}),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end,
@@ -529,9 +561,13 @@ globalkeys = my_table.join(
         end,
         {description = "show rofi", group = "launcher"}),
     --]]
-    -- Prompt
-    awful.key({ modkey }, "r", function () awful.screen.focused().mypromptbox:run() end,
-              {description = "run prompt", group = "launcher"}),
+    -- Original Prompt:
+    -- awful.key({ modkey }, "r", function () awful.screen.focused().mypromptbox:run() end,
+    --           {description = "run prompt", group = "launcher"}),
+    -- My Prompt:
+    awful.key({ modkey, }, "r", function () awful.spawn(desktop_apps_launcher) end,
+              {description = "Open desktop applications launcher.", group = "launcher"}),
+
 
     awful.key({ modkey }, "x",
               function ()
@@ -583,7 +619,10 @@ clientkeys = my_table.join(
 -- Bind all key numbers to tags.
 -- Be careful: we use keycodes to make it works on any keyboard layout.
 -- This should map on the top row of your keyboard, usually 1 to 9.
-for i = 1, 9 do
+-- Original loop:
+--for i = 1, 9 do
+-- My loop:
+for i = 1, 10 do
     -- Hack to only show tags 1 and 9 in the shortcut window (mod+s)
     local descr_view, descr_toggle, descr_move, descr_toggle_focus
     if i == 1 or i == 9 then
@@ -678,11 +717,11 @@ awful.rules.rules = {
       properties = { titlebars_enabled = true } },
 
     -- Set Firefox to always map on the first tag on screen 1.
-    { rule = { class = "Firefox" },
-      properties = { screen = 1, tag = awful.util.tagnames[1] } },
+   --  { rule = { class = "Firefox" },
+   --    properties = { screen = 1, tag = awful.util.tagnames[1] } },
 
-    { rule = { class = "Gimp", role = "gimp-image-window" },
-          properties = { maximized = true } },
+   --  { rule = { class = "Gimp", role = "gimp-image-window" },
+   --        properties = { maximized = true } },
 }
 -- }}}
 

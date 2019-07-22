@@ -112,7 +112,10 @@ theme.cal = lain.widget.cal({
 -- Weather
 local weathericon = wibox.widget.imagebox(theme.widget_weather)
 theme.weather = lain.widget.weather({
-    city_id = 2643743, -- placeholder (London)
+    -- Orig:
+    -- city_id = 2643743, -- placeholder (London)
+    -- Mine:
+    city_id =  3433955,
     notification_preset = { font = "xos4 Terminus 10", fg = theme.fg_normal },
     weather_na_markup = markup.fontfg(theme.font, "#eca4c4", "N/A "),
     settings = function()
@@ -253,7 +256,10 @@ theme.mpd = lain.widget.mpd({
 
 function theme.at_screen_connect(s)
     -- Quake application
+    -- Orig:
     s.quake = lain.util.quake({ app = awful.util.terminal })
+    -- Mine:
+    --s.quake = lain.util.quake({ app = awful.util.terminal, argname = "--name %s" })
 
     -- If wallpaper is a function, call it with the screen
     local wallpaper = theme.wallpaper
