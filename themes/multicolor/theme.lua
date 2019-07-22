@@ -257,9 +257,9 @@ theme.mpd = lain.widget.mpd({
 function theme.at_screen_connect(s)
     -- Quake application
     -- Orig:
-    s.quake = lain.util.quake({ app = awful.util.terminal })
+    -- s.quake = lain.util.quake({ app = awful.util.terminal })
     -- Mine:
-    --s.quake = lain.util.quake({ app = awful.util.terminal, argname = "--name %s" })
+    s.quake = lain.util.quake({ app = "urxvt" })
 
     -- If wallpaper is a function, call it with the screen
     local wallpaper = theme.wallpaper
